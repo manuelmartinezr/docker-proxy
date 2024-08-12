@@ -1,0 +1,18 @@
+:80 {
+    root * /usr/share/caddy
+
+    # Servir la página de bienvenida con enlaces a app1 y app2
+    file_server {
+        index index.html
+    }
+
+    # Proxy para app1
+    handle /c2/* {
+        reverse_proxy app1:8000
+    }
+
+    # Proxy para app2
+    handle /c3/* {
+        reverse_proxy app2:8001
+    }
+}

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  proxy:
+    image: caddy:latest
+    container_name: caddy_proxy
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile
+      - ./proxy/index.html:/usr/share/caddy/index.html
+    ports:
+      - "80:80"
+    depends_on:
+      - app1
+      - app2
+
+  app1:
+    build: ./app1
+    expose:
+      - "8000"
+
+  app2:
+    build: ./app2
+    expose:
+      - "8001"
