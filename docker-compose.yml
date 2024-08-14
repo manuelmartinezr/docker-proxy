@@ -7,7 +7,12 @@ services:
       - 8000
     networks:
       - webnet
-
+  app2:
+    build: ./app2
+    expose:
+      - 8001
+    networks:
+      - webnet
   nginx:
     image: nginx:latest
     volumes:
@@ -20,3 +25,4 @@ services:
 
 networks:
   webnet:
+    driver: bridge
