@@ -1,24 +1,22 @@
-version: '3'
+version: '3.8'
 
 services:
-  proxy:
-    image: caddy:latest
-    container_name: caddy_proxy
-    volumes:
-      - ./proxy/Caddyfile:/etc/caddy/Caddyfile
-      - ./proxy/index.html:/usr/share/caddy/index.html
-    ports:
-      - "80:80"
-    depends_on:
-      - app1
-      - app2
-
   app1:
     build: ./app1
     expose:
-      - "8000"
+      - 8000
+    networks:
+      - webnet
 
-  app2:
-    build: ./app2
-    expose:
-      - "8001"
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./proxy/index.html:/usr/share/nginx/html/index.html
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+
+networks:
+  webnet:
